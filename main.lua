@@ -112,7 +112,11 @@ main(int argc, char **argv)
 
 ]]
 
-local inputlua = io.open("input.lua", "rb")
+local insert = table.insert --optimizations
+local byte = string.byte
+local format = string.format
+
+local inputlua = io.open(arg[1], "rb")
 local input = inputlua:read("*all")
 inputlua:close()
 
@@ -123,8 +127,8 @@ local function convert(s)
     s:gsub(
         ".",
         function(a)
-            local dec = a:byte()
-            table.insert(converted, "0x" .. string.format("%x", dec))
+            local dec = byte(a)
+            insert(converted, "0x" .. format("%x", dec))
         end
     )
     return converted
@@ -142,8 +146,8 @@ for i = 1, #bytecodetable do
 end
 
 local template = string.gsub(template, "thebytecodehex", buffer)
-local outputC = io.open("output.c", "wb")
+local outputC = io.open((arg[2] or "output.c"), "wb")
 outputC:write(template)
 outputC:close()
 
-os.execute("gcc output.c")
+os.execute("gcc "..(arg[2] or "output.c"))
