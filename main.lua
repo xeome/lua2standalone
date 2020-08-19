@@ -146,8 +146,8 @@ for i = 1, #bytecodetable do
 end
 
 local template = string.gsub(template, "thebytecodehex", buffer)
-local outputC = io.open((arg[2] or "output.c"), "wb")
+local outputC = io.open("output.c", "wb")
 outputC:write(template)
 outputC:close()
 
-os.execute("gcc "..(arg[2] or "output.c"))
+os.execute("gcc output.c -o "..arg[2])
