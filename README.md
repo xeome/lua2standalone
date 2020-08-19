@@ -5,4 +5,4 @@ usage:
 lua main.lua inputfilename outputexename  
 
 you can change inputfilename to your lua file name for example myprogram.lua and outputexe name to the executable name you want to use  
-defaults are input.lua for input and a.exe for output  
+defaults are input.lua for input and a.exe for output executable name  
