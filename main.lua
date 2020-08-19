@@ -116,7 +116,7 @@ local inputlua = io.open("input.lua", "rb")
 local input = inputlua:read("*all")
 inputlua:close()
 
-local precompiled = string.dump(load(input))
+local precompiled = string.dump(load(input),true)
 
 local function convert(s)
     local converted = {}
