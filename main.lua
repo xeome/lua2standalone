@@ -111,8 +111,10 @@ main(int argc, char **argv)
 
 ]]
 
---local input = io.open("input.lua","rb"):read("*all") --commented for testing
-local input = "print('hi')"
+local inputlua = io.open("input.lua","rb")
+local input = inputlua:read("*all")
+inputlua:close()
+
 local precompiled = string.dump(load(input))
 
 local function convert(s)
@@ -134,4 +136,8 @@ else
 	buffer = buffer..bytecodetable[i]
 	end
 end
-print(buffer)
+
+local template = string.gsub(template,"thebytecodehex",buffer)
+local outputC = io.open("output.c","wb")
+outputC:write(template)
+outputC:close()
