@@ -1,4 +1,5 @@
-local template = [[
+local template =
+    [[
 
 #define l_getlocaledecpoint() '.'
 
@@ -111,34 +112,37 @@ main(int argc, char **argv)
 
 ]]
 
-local inputlua = io.open("input.lua","rb")
+local inputlua = io.open("input.lua", "rb")
 local input = inputlua:read("*all")
 inputlua:close()
 
 local precompiled = string.dump(load(input))
 
 local function convert(s)
-	local converted = {}
-	s:gsub(".",function(a)
-		local dec = a:byte()
-		table.insert(converted,"0x"..string.format("%x",dec))
-	end)
-	return converted
+    local converted = {}
+    s:gsub(
+        ".",
+        function(a)
+            local dec = a:byte()
+            table.insert(converted, "0x" .. string.format("%x", dec))
+        end
+    )
+    return converted
 end
 
 local bytecodetable = convert(precompiled)
 
 local buffer = ""
-for i=1,#bytecodetable do
-	if i ~= #bytecodetable then
-	buffer = buffer..bytecodetable[i]..","
-else
-	buffer = buffer..bytecodetable[i]
-	end
+for i = 1, #bytecodetable do
+    if i ~= #bytecodetable then
+        buffer = buffer .. bytecodetable[i] .. ","
+    else
+        buffer = buffer .. bytecodetable[i]
+    end
 end
 
-local template = string.gsub(template,"thebytecodehex",buffer)
-local outputC = io.open("output.c","wb")
+local template = string.gsub(template, "thebytecodehex", buffer)
+local outputC = io.open("output.c", "wb")
 outputC:write(template)
 outputC:close()
 
