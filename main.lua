@@ -116,7 +116,7 @@ local insert = table.insert --optimizations
 local byte = string.byte
 local format = string.format
 
-local inputlua = io.open(arg[1], "rb")
+local inputlua = io.open(arg[1] or "input.lua", "rb")
 local input = inputlua:read("*all")
 inputlua:close()
 
@@ -150,4 +150,4 @@ local outputC = io.open("output.c", "wb")
 outputC:write(template)
 outputC:close()
 
-os.execute("gcc output.c -o "..arg[2])
+os.execute("gcc output.c -o "..(arg[2] or "output"))
